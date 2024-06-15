@@ -1,0 +1,28 @@
+class Solution:
+    def numBusesToDestination(self, routes: List[List[int]], source: int, target: int) -> int:
+        #least number of buses -> bfs
+        stop_to_bus = collections.defaultdict(set)
+
+        for i , stops in enumerate(routes):
+            for stop in stops:
+                stop_to_bus[stop].add(i)
+
+        visited_stop = set()
+        visited_bus = set()
+        bfs = [(source,0)]
+        visited_stop.add(source)
+
+        for cur, step in bfs:
+            if cur == target:
+                return step
+
+            for bus in stop_to_bus[cur]:
+                if bus not in visited_bus:
+                    visited_bus.add(bus)
+
+                    for nxt_stop in routes[bus]:
+                        if nxt_stop not in visited_stop:
+                            visited_stop.add(nxt_stop)
+                            bfs.append((nxt_stop, step + 1))
+
+        return -1
