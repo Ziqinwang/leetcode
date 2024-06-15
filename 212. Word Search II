@@ -1,0 +1,60 @@
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.word = None
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, word):
+        node = self.root
+        for i in word:
+            if i not in node.children:
+                node.children[i] = TrieNode()
+            node = node.children[i]
+
+        node.word = word
+
+
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        res = []
+        n, m = len(board), len(board[0])
+        words = set(words)
+
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+        node = trie.root
+
+        for i in range(n):
+            for j in range(m):
+                // put all conditon in functon, not outside
+                self.dfs(i, j, node, res, board)
+        
+        return res
+
+    def dfs(self, i, j, node, res, board):
+        //out conditon first
+        
+        if not node:
+            return
+        if node.word:
+            res.append(node.word)
+            node.word = None
+            
+        if i < 0 or j < 0 or i >= len(board) or j >= len(board[0]) or board[i][j] not in node.children:
+            return
+        // no more than one visit
+        node = node.children[board[i][j]]
+        tmp = board[i][j]
+        board[i][j] = '#'
+        
+        for _x, _y in [(0,1), (1,0), (0,-1), (-1,0)]:
+            a = i + _x
+            b = j + _y
+
+            self.dfs(a, b, node, res, board)
+
+        board[i][j] = tmp
