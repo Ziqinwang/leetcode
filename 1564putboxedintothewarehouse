@@ -1,0 +1,21 @@
+class Solution:
+    def maxBoxesInWarehouse(self, boxes: List[int], warehouse: List[int]) -> int:
+        #sorting the smallest from right
+
+        #boxed from left to right only, so box need to arrange from small to large
+        #warehosue need to check by far, how small can go
+        
+        n, m = len(boxes), len(warehouse)
+        min_h = warehouse[0]
+        for i in range(m):
+            warehouse[i] = min(warehouse[i], min_h)
+            min_h = warehouse[i]
+
+        boxes = sorted(boxes)
+        ans = 0
+
+        for j in range(m-1, -1, -1):
+            if boxes[ans] <= warehouse[j]:
+                ans += 1
+        
+        return ans
