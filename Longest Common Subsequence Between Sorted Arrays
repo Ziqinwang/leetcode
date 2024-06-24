@@ -1,0 +1,18 @@
+class Solution:
+    def longestCommonSubsequence(self, arrays: List[List[int]]) -> List[int]:
+        #increasing subsequence
+        #only need to count the uniqe number in all array
+        #if # show up per one element == len(arrays), it will be commonsub
+        #since it is in the same order
+
+        freq = collections.defaultdict(int)
+        match_length = len(arrays)
+        res = []
+
+        for array in arrays:
+            for num in array:
+                freq[num] += 1
+                if freq[num] == match_length:
+                    #it is guranteed the order 
+                    res.append(num)
+        return res
