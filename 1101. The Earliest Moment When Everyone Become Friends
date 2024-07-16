@@ -1,0 +1,32 @@
+class Solution:
+    def earliestAcq(self, logs: List[List[int]], n: int) -> int:
+        uf = {i: i for i in range(n)}
+        self.group = n
+
+        def find(x):
+            tmp_lst = []
+            while x != uf[x]:
+                tmp_lst.append(x)
+                x = uf[x]
+            
+            for i in tmp_lst:
+                uf[i] = x
+            
+            return x
+
+        def merge(x, y):
+            x_father = find(x)
+            y_father = find(y)
+
+            if x_father != y_father:
+                self.group -= 1
+                uf[x_father] = y_father
+        
+
+
+        for t, x, y in sorted(logs):
+            merge(x, y)
+            if self.group == 1:
+                return t
+
+        return -1
