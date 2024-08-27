@@ -1,0 +1,41 @@
+#middle of the linked list, if it is even, the second one
+#leetcode 876
+def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    if not head or not head.next:
+        return head
+
+    slow = fast = head
+    while fast and fast.next:
+        tmp = slow
+        slow = slow.next
+        fast = fast.next.next
+    i  f even, tmp is the fisrt middle
+    return tmp.next
+
+#binary search, general templates
+#875. Koko Eating Bananas
+  def minEatingSpeed(self, piles: List[int], h: int) -> int:
+
+      #a better binary search module
+      def can_finish(piles, cur_k, h):
+          count = 0
+          for pile in piles:
+              count += pile//cur_k
+              if pile % cur_k:
+                  count += 1
+          return count <= h
+
+
+      l, r = 1, max(piles)
+      res = 0
+      #using <=
+      while l <= r:
+          cur_k = (l + r) // 2
+          if can_finish(piles, cur_k, h):
+          #when condtion match, res = cur_k
+              r = cur_k - 1
+              res = cur_k
+          else:
+              l = cur_k + 1
+      #return res, instead of l or r, which can be confusing
+      return res
